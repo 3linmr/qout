@@ -101,6 +101,12 @@ module.exports = async (req, res) => {
     return;
   }
 
+  await supabase
+    .from("carts")
+    .update({ status: "submitted" })
+    .eq("customer_id", customerId)
+    .eq("status", "open");
+
   res.status(200).json({ order });
 };
 

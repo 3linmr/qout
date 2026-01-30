@@ -110,23 +110,11 @@ const renderMenu = () => {
 };
 
 const addToCart = (item) => {
-  const existing = cart.get(item.id) || { ...item, qty: 0 };
-  existing.qty += 1;
-  cart.set(item.id, existing);
-  showToast("تمت الإضافة للسلة");
-  renderCart();
+  updateCartItem(item.id, 1);
 };
 
 const updateQty = (id, delta) => {
-  const item = cart.get(id);
-  if (!item) return;
-  item.qty += delta;
-  if (item.qty <= 0) {
-    cart.delete(id);
-  } else {
-    cart.set(id, item);
-  }
-  renderCart();
+  updateCartItem(id, delta);
 };
 
 const renderCart = () => {
@@ -164,6 +152,42 @@ const renderCart = () => {
   taxEl.textContent = formatPrice(tax);
   totalEl.textContent = formatPrice(total);
   cartCount.textContent = Array.from(cart.values()).reduce((sum, item) => sum + item.qty, 0);
+};
+
+const setCartFromServer = (data) => {
+  cart.clear();
+  (data.items || []).forEach((item) => {
+    cart.set(item.id, { ...item });
+  });
+  renderCart();
+};
+
+const fetchCart = async () => {
+  if (!customerId) return;
+  try {
+    const data = await fetchJson(`${apiBase}/cart?customerId=${customerId}`);
+    setCartFromServer(data);
+  } catch (error) {
+    showToast("تعذر تحميل السلة حالياً.");
+  }
+};
+
+const updateCartItem = async (itemId, delta) => {
+  if (!customerId) {
+    showToast("يرجى تسجيل الدخول أولاً.");
+    openAuth();
+    return;
+  }
+  try {
+    const data = await fetchJson(`${apiBase}/cart-items`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ customerId, itemId, delta }),
+    });
+    setCartFromServer(data);
+  } catch (error) {
+    showToast("تعذر تحديث السلة حالياً.");
+  }
 };
 
 const createCustomer = async (phone) => {
@@ -271,6 +295,7 @@ otpForm.addEventListener("submit", async (event) => {
     paymentHint.textContent = "جاهز لإتمام الدفع.";
     closeAuthModal();
     showToast("تم تسجيل الدخول بنجاح");
+    await fetchCart();
   } catch (error) {
     otpHint.textContent = "تعذر تسجيل الدخول حالياً.";
     otpHint.style.color = "crimson";
@@ -323,6 +348,7 @@ const bootstrap = async () => {
     userPhone.classList.remove("hidden");
     loginBtn.classList.add("hidden");
     paymentHint.textContent = "جاهز لإتمام الدفع.";
+    await fetchCart();
   }
 };
 

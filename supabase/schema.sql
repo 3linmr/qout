@@ -41,3 +41,20 @@ create table if not exists order_items (
   created_at timestamptz not null default now()
 );
 
+create table if not exists carts (
+  id uuid primary key default gen_random_uuid(),
+  customer_id uuid references customers(id) on delete cascade,
+  status text not null default 'open',
+  created_at timestamptz not null default now()
+);
+
+create table if not exists cart_items (
+  id uuid primary key default gen_random_uuid(),
+  cart_id uuid references carts(id) on delete cascade,
+  item_id bigint references menu_items(id),
+  name text not null,
+  price numeric(10, 2) not null,
+  qty integer not null,
+  created_at timestamptz not null default now()
+);
+
