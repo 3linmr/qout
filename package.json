@@ -1,0 +1,13 @@
+{
+  "name": "qout-bufia",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Qout Bufia restaurant ordering site",
+  "dependencies": {
+    "@supabase/supabase-js": "^2.49.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
+

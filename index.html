@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>قوت بوفيه | طلب وجدولة الاستلام</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="pattern-bg">
+    <header class="site-header">
+      <div class="brand">
+        <img src="assets/logo.png" alt="قوت بوفيه" class="brand-logo" />
+        <div>
+          <h1>قوت بوفيه</h1>
+          <p>بوفيه بنكهة تراثية من قلب الدمام</p>
+        </div>
+      </div>
+      <nav class="site-nav">
+        <a href="#menu">المنيو</a>
+        <a href="#schedule">جدولة الاستلام</a>
+        <a href="#checkout">الدفع</a>
+        <a href="#contact">تواصل معنا</a>
+      </nav>
+      <div class="auth-state">
+        <button class="btn ghost" id="loginBtn">تسجيل برقم الهاتف</button>
+        <span id="userPhone" class="user-phone hidden"></span>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero" id="top">
+        <div class="hero-content">
+          <div class="hero-text">
+            <p class="hero-tag">قوت بوفيه</p>
+            <h2>اطلب من المنيو وجدول وقت الاستلام بضغطة واحدة</h2>
+            <p>
+              جهّزنا لك تجربة طلب سهلة وسريعة: منيو متجدد، جدولة دقيقة،
+              وتسجيل آمن برقم الهاتف مع خيارات دفع متعددة.
+            </p>
+            <div class="hero-actions">
+              <a class="btn primary" href="#menu">ابدأ الطلب</a>
+              <button class="btn outline" id="openScheduleBtn">جدولة الآن</button>
+            </div>
+            <div class="hero-highlights">
+              <div>
+                <span>+30</span>
+                <small>صنف مميز</small>
+              </div>
+              <div>
+                <span>15-20 د</span>
+                <small>وقت تجهيز متوسط</small>
+              </div>
+              <div>
+                <span>4.8</span>
+                <small>تقييم العملاء</small>
+              </div>
+            </div>
+          </div>
+          <div class="hero-card">
+            <img src="assets/bag.png" alt="طلبات قوت" />
+            <div class="hero-card-overlay">
+              <p>تجهيز أنيق لكل طلب</p>
+              <span>جاهزين لوقتك</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="brand-strip">
+        <img src="assets/elements.png" alt="عناصر تراثية" />
+        <p>تصميم بصري مستوحى من تراث المنطقة الشرقية وألوان قوت المميزة.</p>
+      </section>
+
+      <section class="menu-section" id="menu">
+        <div class="section-header">
+          <div>
+            <h3>المنيو</h3>
+            <p>اختر الأصناف المفضلة وأضفها للسلة بسهولة.</p>
+          </div>
+          <div class="menu-filters" id="menuFilters"></div>
+        </div>
+        <div class="menu-grid" id="menuGrid"></div>
+      </section>
+
+      <section class="schedule-section" id="schedule">
+        <div class="schedule-card">
+          <div>
+            <h3>جدولة الاستلام</h3>
+            <p>اختر الوقت المناسب، ونحن نجهز طلبك بدقة.</p>
+          </div>
+          <form id="scheduleForm">
+            <div class="form-row">
+              <label class="radio">
+                <input type="radio" name="pickupType" value="now" checked />
+                استلام قريبًا
+              </label>
+              <label class="radio">
+                <input type="radio" name="pickupType" value="later" />
+                جدولة لاحقًا
+              </label>
+            </div>
+            <div class="form-row">
+              <label>
+                التاريخ
+                <input type="date" id="pickupDate" />
+              </label>
+              <label>
+                الوقت
+                <select id="pickupTime"></select>
+              </label>
+            </div>
+            <button class="btn primary" type="submit">تأكيد الموعد</button>
+            <p class="form-hint" id="scheduleHint">
+              سيتم عرض موعد الاستلام في ملخص الطلب.
+            </p>
+          </form>
+        </div>
+        <div class="schedule-visual">
+          <img src="assets/cups.png" alt="أكواب قوت" />
+        </div>
+      </section>
+
+      <section class="checkout-section" id="checkout">
+        <div class="cart-card">
+          <div class="section-header">
+            <div>
+              <h3>سلة الطلب</h3>
+              <p>راجع طلبك وتأكد من التفاصيل قبل الدفع.</p>
+            </div>
+            <span class="badge" id="cartCount">0</span>
+          </div>
+          <div class="cart-items" id="cartItems"></div>
+          <div class="cart-summary">
+            <div>
+              <span>الإجمالي الفرعي</span>
+              <strong id="subtotal">0 ر.س</strong>
+            </div>
+            <div>
+              <span>الضريبة (15%)</span>
+              <strong id="tax">0 ر.س</strong>
+            </div>
+            <div class="total">
+              <span>الإجمالي</span>
+              <strong id="total">0 ر.س</strong>
+            </div>
+            <div class="pickup-summary">
+              <span>موعد الاستلام</span>
+              <strong id="pickupSummary">يرجى تحديد الموعد</strong>
+            </div>
+          </div>
+        </div>
+
+        <div class="payment-card">
+          <h3>الدفع الآمن</h3>
+          <p>اختر بوابة الدفع المفضلة وأكمل الطلب.</p>
+          <div class="payment-methods">
+            <label class="payment-option">
+              <input type="radio" name="paymentMethod" value="mada" checked />
+              مدى / فيزا / ماستر
+            </label>
+            <label class="payment-option">
+              <input type="radio" name="paymentMethod" value="apple" />
+              Apple Pay
+            </label>
+            <label class="payment-option">
+              <input type="radio" name="paymentMethod" value="stc" />
+              STC Pay
+            </label>
+          </div>
+          <div class="payment-fields" id="cardFields">
+            <label>
+              رقم البطاقة
+              <input type="text" placeholder="0000 0000 0000 0000" />
+            </label>
+            <div class="form-row">
+              <label>
+                تاريخ الانتهاء
+                <input type="text" placeholder="MM/YY" />
+              </label>
+              <label>
+                CVV
+                <input type="password" placeholder="***" />
+              </label>
+            </div>
+          </div>
+          <button class="btn primary full" id="payBtn">ادفع الآن</button>
+          <p class="form-hint" id="paymentHint">
+            يتطلب الدفع تسجيل الدخول برقم الهاتف.
+          </p>
+        </div>
+      </section>
+
+      <section class="story-section">
+        <div class="story-card">
+          <div>
+            <h3>قصة قوت</h3>
+            <p>
+              نقدم تجربة بوفيه عصرية بروح تراثية، من الأطباق المحلية إلى
+              التفاصيل البصرية. كل طلب لدينا مصمم ليصل بأناقة واهتمام.
+            </p>
+            <div class="story-tags">
+              <span>مذاق شرقي</span>
+              <span>تجربة أنيقة</span>
+              <span>جاهزية دقيقة</span>
+            </div>
+          </div>
+          <img src="assets/packaging.png" alt="تغليف قوت" />
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer" id="contact">
+      <div>
+        <h4>قوت بوفيه</h4>
+        <p>الدمام - طريق الخليج</p>
+      </div>
+      <div>
+        <h4>تواصل</h4>
+        <p>الهاتف: 9200 00000</p>
+        <p>البريد: hello@qoutbufia.com</p>
+      </div>
+      <div>
+        <h4>أوقات العمل</h4>
+        <p>يوميًا 6:00 ص - 12:00 ص</p>
+      </div>
+    </footer>
+
+    <div class="modal hidden" id="authModal">
+      <div class="modal-content">
+        <button class="modal-close" id="closeAuth">×</button>
+        <h3>تسجيل برقم الهاتف</h3>
+        <p>ادخل رقم الهاتف وسنرسل لك رمز تحقق سريع.</p>
+        <form id="authForm">
+          <label>
+            رقم الهاتف
+            <input type="tel" id="phoneInput" placeholder="05xxxxxxxx" required />
+          </label>
+          <button class="btn primary full" type="submit">إرسال الرمز</button>
+        </form>
+        <form id="otpForm" class="hidden">
+          <label>
+            رمز التحقق
+            <input type="text" id="otpInput" placeholder="0000" required />
+          </label>
+          <p class="form-hint" id="otpHint"></p>
+          <button class="btn primary full" type="submit">تأكيد</button>
+        </form>
+      </div>
+    </div>
+
+    <div class="toast hidden" id="toast"></div>
+
+    <script src="app.js"></script>
+  </body>
+</html>
+
+
