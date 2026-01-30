@@ -14,7 +14,7 @@
 ## متغيرات البيئة (Vercel)
 اضف المتغيرات التالية في مشروع Vercel:
 - `SUPABASE_URL`
-- `SUPABASE_SERVICE_ROLE_KEY`
+- `SUPABASE_SECRET_KEY` (او `SUPABASE_SERVICE_ROLE_KEY` للحسابات القديمة)
 
 ## تشغيل محلي (اختياري)
 - ثبّت الاعتماديات: `npm install`
